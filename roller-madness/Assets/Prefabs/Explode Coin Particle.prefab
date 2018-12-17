@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 2319593169814787243, guid: 30417a75f683fe6f58b046524f12f4c3,
         type: 3}
       propertyPath: m_Name
-      value: Explode Enemy Particle
+      value: Explode Coin Particle
       objectReference: {fileID: 0}
     - target: {fileID: 4959517085143720518, guid: 30417a75f683fe6f58b046524f12f4c3,
         type: 3}
@@ -91,6 +91,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: 028470f438276874f97870c549e6be32, type: 3}
+      objectReference: {fileID: 8300000, guid: 53a48158d4ef510ad832c9f0992202cf, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 30417a75f683fe6f58b046524f12f4c3, type: 3}
