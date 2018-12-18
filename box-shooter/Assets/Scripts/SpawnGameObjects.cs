@@ -26,9 +26,9 @@ public class SpawnGameObjects : MonoBehaviour
 	void Update ()
 	{
 		// exit if there is a game manager and the game is over
-		if (GameManager.gm) {
-			if (GameManager.gm.gameIsOver)
-				return;
+		if (GameManager.gm && GameManager.gm.gameIsOver)
+		{
+			return;
 		}
 
 		// if time to spawn a new game object

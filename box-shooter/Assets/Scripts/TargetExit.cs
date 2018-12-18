@@ -20,21 +20,25 @@ public class TargetExit : MonoBehaviour
 	void Update ()
 	{
 		// continually check to see if past the target time
-		if (Time.time >= targetTime) {
-			if (this.GetComponent<Animator> () == null)
-				// no Animator so just destroy right away
-				Destroy (gameObject);
-			else if (!startDestroy) {
-				// set startDestroy to true so this code will not run a second time
-				startDestroy = true;
-
-				// trigger the Animator to make the "Exit" transition
-				this.GetComponent<Animator> ().SetTrigger ("Exit");
-
-				// Call KillTarget function after exitAnimationSeconds to give time for animation to play
-				Invoke ("KillTarget", exitAnimationSeconds);
-			}
+		if (startDestroy || Time.time < targetTime)
+		{
+			return;
 		}
+		// set startDestroy to true so this code will not run a second time
+		startDestroy = true;
+		
+		Animator animator = this.GetComponent<Animator>();
+		if (animator == null)
+		{
+			// no Animator so just destroy right away
+			Destroy(gameObject);
+			return;
+		}
+		// trigger the Animator to make the "Exit" transition
+		animator.SetTrigger("TargetExit");
+
+		// Call KillTarget function after exitAnimationSeconds to give time for animation to play
+		Invoke("KillTarget", exitAnimationSeconds);
 	}
 
 	// destroy the gameObject when called
