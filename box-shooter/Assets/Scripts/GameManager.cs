@@ -61,16 +61,22 @@ public class GameManager : MonoBehaviour {
 
 	// this is the main game event loop
 	void Update () {
-		if (!gameIsOver) {
-			if (canBeatLevel && (score >= beatLevelScore)) {  // check to see if beat game
-				BeatLevel ();
-			} else if (currentTime < 0) { // check to see if timer has run out
-				EndGame ();
-			} else { // game playing state, so update the timer
-				currentTime -= Time.deltaTime;
-				mainTimerDisplay.text = currentTime.ToString ("0.00");				
-			}
+		if (gameIsOver) {
+			return;
 		}
+		else if (currentTime < 0)
+		{ // check to see if timer has run out
+			EndGame();
+			return;
+		}
+		else if (canBeatLevel && (score >= beatLevelScore))
+		{  // check to see if beat game
+			BeatLevel();
+			return;
+		}
+		// game playing state, so update the timer
+		currentTime -= Time.deltaTime;
+		mainTimerDisplay.text = currentTime.ToString ("0.00");
 	}
 
 	void EndGame() {

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8107184329114418845}
   - component: {fileID: 8107184329114418846}
   - component: {fileID: 695556101208729866}
+  - component: {fileID: 4689649595912533969}
   m_Layer: 0
   m_Name: Target
   m_TagString: Untagged
@@ -107,3 +108,18 @@ MonoBehaviour:
   motionState: 0
   spinSpeed: 180
   motionMagnitude: 0.1
+--- !u!114 &4689649595912533969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8107184329114418840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20a926d2dbaf347e29cb9c7dc7bf85da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreAmount: 0
+  timeAmount: 0
+  explosionPrefab: {fileID: 0}
