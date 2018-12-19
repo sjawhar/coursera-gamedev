@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+﻿﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityStandardAssets.ImageEffects;
 
 public class GameManager : MonoBehaviour {
 
@@ -20,6 +21,7 @@ public class GameManager : MonoBehaviour {
 	public Text mainTimerDisplay;
 
 	public GameObject gameOverScoreOutline;
+	public GameObject timeFrozenScoreOutline;
 
 	public AudioSource musicAudioSource;
 
@@ -32,6 +34,9 @@ public class GameManager : MonoBehaviour {
 	public string nextLevelToLoad;
 
 	private float currentTime;
+
+	private bool gameIsFrozen = false;
+	private float freezeTime = 0.0f;
 
 	// setup the game
 	void Start () {
@@ -50,6 +55,9 @@ public class GameManager : MonoBehaviour {
 		if (gameOverScoreOutline)
 			gameOverScoreOutline.SetActive (false);
 
+		if (timeFrozenScoreOutline)
+			timeFrozenScoreOutline.SetActive(false);
+
 		// inactivate the playAgainButtons gameObject, if it is set
 		if (playAgainButtons)
 			playAgainButtons.SetActive (false);
@@ -64,6 +72,13 @@ public class GameManager : MonoBehaviour {
 		if (gameIsOver) {
 			return;
 		}
+		else if (gameIsFrozen && freezeTime < 0)
+		{
+			gameIsFrozen = false;
+			freezeTime = 0.0f;
+			timeFrozenScoreOutline.SetActive(false);
+			Camera.main.GetComponent<SepiaTone>().enabled = false;
+		}
 		else if (currentTime < 0)
 		{ // check to see if timer has run out
 			EndGame();
@@ -75,8 +90,7 @@ public class GameManager : MonoBehaviour {
 			return;
 		}
 		// game playing state, so update the timer
-		currentTime -= Time.deltaTime;
-		mainTimerDisplay.text = currentTime.ToString ("0.00");
+		AdvanceTime();
 	}
 
 	void EndGame() {
@@ -120,7 +134,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	// public function that can be called to update the score or time
-	public void targetHit (int scoreAmount, float timeAmount)
+	public void TargetHit(int scoreAmount, float timeAmount)
 	{
 		// increase the score by the scoreAmount and update the text UI
 		score += scoreAmount;
@@ -135,6 +149,31 @@ public class GameManager : MonoBehaviour {
 
 		// update the text UI
 		mainTimerDisplay.text = currentTime.ToString ("0.00");
+	}
+
+	public void FreezeTargetHit()
+	{
+		gameIsFrozen = true;
+		freezeTime += 5.0f;
+		if (timeFrozenScoreOutline) {
+			timeFrozenScoreOutline.SetActive(true);
+		}
+		Camera.main.GetComponent<SepiaTone>().enabled = true;
+	}
+
+	private void AdvanceTime()
+	{
+		if (gameIsFrozen) {
+			freezeTime -= Time.deltaTime;
+			return;
+		}
+		currentTime -= Time.deltaTime;
+		mainTimerDisplay.text = currentTime.ToString("0.00");
+	}
+
+	public bool IsGameFrozen()
+	{
+		return gameIsFrozen;
 	}
 
 	// public function that can be called to restart the game

@@ -7,6 +7,7 @@ public class TargetBehavior : MonoBehaviour
 	// target impact on game
 	public int scoreAmount = 0;
 	public float timeAmount = 0.0f;
+	public bool freezeTime = false;
 
 	// explosion when hit?
 	public GameObject explosionPrefab;
@@ -32,7 +33,10 @@ public class TargetBehavior : MonoBehaviour
 
 		if (GameManager.gm)
 		{
-			GameManager.gm.targetHit(scoreAmount, timeAmount);
+			GameManager.gm.TargetHit(scoreAmount, timeAmount);
+			if (freezeTime) {
+				GameManager.gm.FreezeTargetHit();
+			}
 		}
 			
 		Destroy(newCollision.gameObject);

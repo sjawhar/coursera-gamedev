@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Target-Negative Material
+  m_Name: Target-Freeze Material
   m_Shader: {fileID: 45, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: _EMISSION _EMISSIONMAP _LIGHTMAPPING_DYNAMIC_LIGHTMAPS _LIGHTMAPPING_REALTIME
     _UVSEC_UV1
@@ -85,9 +85,9 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.9098039, g: 0.3490196, b: 0.35941675, a: 1}
-    - _EmissionColor: {r: 0.7058824, g: 0, b: 0.0333427, a: 1.3348337}
+    - _Color: {r: 1, g: 0.9806782, b: 0, a: 1}
+    - _EmissionColor: {r: 0.25882354, g: 0.24717881, b: 0, a: 1.3348337}
     - _EmissionColorUI: {r: 0, g: 0, b: 0, a: 1}
     - _EmissionColorWithMapUI: {r: 1, g: 1, b: 1, a: 1}
-    - _SpecColor: {r: 0, g: 0.042241395, b: 0.125, a: 0.922}
+    - _SpecColor: {r: 0.031358138, g: 0.09282011, b: 0.21323532, a: 0.922}
     - _SpecularColor: {r: 0.15686275, g: 0.15686275, b: 0.15686275, a: 1}

@@ -24,6 +24,11 @@ public class TargetExit : MonoBehaviour
 		{
 			return;
 		}
+		else if (GameManager.gm && GameManager.gm.IsGameFrozen())
+		{
+			targetTime += Time.deltaTime;
+			return;
+		}
 		// set startDestroy to true so this code will not run a second time
 		startDestroy = true;
 		

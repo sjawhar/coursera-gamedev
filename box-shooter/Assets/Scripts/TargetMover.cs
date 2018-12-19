@@ -15,6 +15,9 @@ public class TargetMover : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		if (GameManager.gm && GameManager.gm.IsGameFrozen()) {
+			return;
+		}
 
 		// do the appropriate motion based on the motionState
 		switch(motionState) {
