@@ -1,0 +1,21 @@
+{
+    "folders":
+    [
+        {
+            "path": ".",
+            "folder_include_patterns":
+            [
+                "box-shooter",
+                "roller-madness",
+                "solar-system",
+                "Assets",
+                "Scripts"
+            ],
+            "file_exclude_patterns":
+            [
+                "*.dll",
+                "*.meta"
+            ]
+        }
+    ]
+}
