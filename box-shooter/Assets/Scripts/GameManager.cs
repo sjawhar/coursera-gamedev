@@ -77,6 +77,8 @@ public class GameManager : MonoBehaviour {
 			gameIsFrozen = false;
 			freezeTime = 0.0f;
 			timeFrozenScoreOutline.SetActive(false);
+			if (musicAudioSource)
+				musicAudioSource.pitch = 1.0f;
 			Camera.main.GetComponent<SepiaTone>().enabled = false;
 		}
 		else if (currentTime < 0)
@@ -154,10 +156,12 @@ public class GameManager : MonoBehaviour {
 	public void FreezeTargetHit()
 	{
 		gameIsFrozen = true;
-		freezeTime += 5.0f;
+		freezeTime = 5.0f;
 		if (timeFrozenScoreOutline) {
 			timeFrozenScoreOutline.SetActive(true);
 		}
+		if (musicAudioSource)
+			musicAudioSource.pitch = 0.25f;
 		Camera.main.GetComponent<SepiaTone>().enabled = true;
 	}
 
