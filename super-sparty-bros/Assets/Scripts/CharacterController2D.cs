@@ -186,16 +186,20 @@ public class CharacterController2D : MonoBehaviour {
 			return;
 		}
 
+		DoJump();
+		if (!isGrounded) {
+			_canDoubleJump = false;
+		}
+	}
+
+	void DoJump()
+	{
 		// reset current vertical motion to 0 prior to jump
 		_vy = 0f;
 		// add a force in the up direction
 		_rigidbody.AddForce (new Vector2 (0, jumpForce));
 		// play the jump sound
 		PlaySound(jumpSFX);
-
-		if (!isGrounded) {
-			_canDoubleJump = false;
-		}
 	}
 
 	// do what needs to be done to freeze the player
@@ -215,6 +219,11 @@ public class CharacterController2D : MonoBehaviour {
 	void PlaySound(AudioClip clip)
 	{
 		_audio.PlayOneShot(clip);
+	}
+
+	public void EnemyBounce()
+	{
+		DoJump();
 	}
 
 	// public function to apply damage to the player

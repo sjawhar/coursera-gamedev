@@ -3,17 +3,17 @@ using System.Collections;
 
 public class Enemy : MonoBehaviour {
 	
+	[Range(0f,10f)]
 	public float moveSpeed = 4f;  // enemy move speed when moving
 	public int damageAmount = 10; // probably deal a lot of damage to kill player immediately
 
+	[Tooltip("Child gameObject for detecting stub.")]
 	public GameObject stunnedCheck; // what gameobject is the stunnedCheck
 
 	public float stunnedTime = 3f;   // how long to wait at a waypoint
 	
 	public string stunnedLayer = "StunnedEnemy";  // name of the layer to put enemy on when stunned
 	public string playerLayer = "Player";  // name of the player layer to ignore collisions with when stunned
-	
-	public bool isStunned = false;  // flag for isStunned
 	
 	public GameObject[] myWaypoints; // to define the movement waypoints
 	
@@ -26,6 +26,7 @@ public class Enemy : MonoBehaviour {
 	public AudioClip attackSFX;
 	
 	// private variables below
+	bool _isStunned = false;  // flag for isStunned
 	
 	// store references to components on the gameObject
 	Transform _transform;
@@ -34,6 +35,7 @@ public class Enemy : MonoBehaviour {
 	AudioSource _audio;
 	
 	// movement tracking
+	[SerializeField]
 	int _myWaypointIndex = 0; // used as index for My_Waypoints
 	float _moveTime; 
 	float _vx = 0f;
@@ -85,7 +87,7 @@ public class Enemy : MonoBehaviour {
 	
 	// if not stunned then move the enemy when time is > _moveTime
 	void Update () {
-		if (!isStunned)
+		if (!_isStunned)
 		{
 			if (Time.time >= _moveTime) {
 				EnemyMovement();
@@ -153,7 +155,7 @@ public class Enemy : MonoBehaviour {
 	// Attack player
 	void OnTriggerEnter2D(Collider2D collision)
 	{
-		if ((collision.tag == "Player") && !isStunned)
+		if ((collision.tag == "Player") && !_isStunned)
 		{
 			CharacterController2D player = collision.gameObject.GetComponent<CharacterController2D>();
 			if (player.playerCanMove) {
@@ -203,9 +205,9 @@ public class Enemy : MonoBehaviour {
 	// setup the enemy to be stunned
 	public void Stunned()
 	{
-		if (!isStunned) 
+		if (!_isStunned) 
 		{
-			isStunned = true;
+			_isStunned = true;
 			
 			// provide the player with feedback that enemy is stunned
 			playSound(stunnedSFX);
@@ -229,7 +231,7 @@ public class Enemy : MonoBehaviour {
 		yield return new WaitForSeconds(stunnedTime); 
 		
 		// no longer stunned
-		isStunned = false;
+		_isStunned = false;
 		
 		// switch layer back to regular layer for regular collisions with the player
 		this.gameObject.layer = _enemyLayer;
