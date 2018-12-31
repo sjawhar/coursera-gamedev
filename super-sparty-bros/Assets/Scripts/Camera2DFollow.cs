@@ -12,7 +12,7 @@ namespace UnityStandardAssets._2D
         public float lookAheadReturnSpeed = 0.5f;
         public float lookAheadMoveThreshold = 0.1f;
 
-		// private variables
+        // private variables
         float m_OffsetZ;
         Vector3 m_LastTargetPosition;
         Vector3 m_CurrentVelocity;
@@ -25,21 +25,21 @@ namespace UnityStandardAssets._2D
             m_OffsetZ = (transform.position - target.position).z;
             transform.parent = null;
 
-			// if target not set, then set it to the player
-			if (target==null) {
-				target = GameObject.FindGameObjectWithTag("Player").transform;
-			}
+            // if target not set, then set it to the player
+            if (target==null) {
+                target = GameObject.FindGameObjectWithTag("Player").transform;
+            }
 
-			if (target==null)
-				Debug.LogError("Target not set on Camera2DFollow.");
+            if (target==null)
+                Debug.LogError("Target not set on Camera2DFollow.");
 
         }
 
         // Update is called once per frame
-		private void Update()
+        private void Update()
         {
-			if (target == null)
-				return;
+            if (target == null)
+                return;
 
             // only update lookahead pos if accelerating or changed direction
             float xMoveDelta = (target.position - m_LastTargetPosition).x;
@@ -52,7 +52,7 @@ namespace UnityStandardAssets._2D
             }
             else
             {
-				m_LookAheadPos = Vector3.MoveTowards(m_LookAheadPos, Vector3.zero, Time.deltaTime*lookAheadReturnSpeed);
+                m_LookAheadPos = Vector3.MoveTowards(m_LookAheadPos, Vector3.zero, Time.deltaTime*lookAheadReturnSpeed);
             }
 
             Vector3 aheadTargetPos = target.position + m_LookAheadPos + Vector3.forward*m_OffsetZ;

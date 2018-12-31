@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5332331452903374225}
   - component: {fileID: 5332331452903374226}
   - component: {fileID: 5332331452903374227}
-  - component: {fileID: 5332331452903374236}
+  - component: {fileID: 7199131816004375236}
   m_Layer: 0
   m_Name: Victory
   m_TagString: Untagged
@@ -117,7 +117,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &5332331452903374236
+--- !u!114 &7199131816004375236
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -126,8 +126,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5332331452903374237}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef2b451f1045ca8ec853ff72c9b8247a, type: 3}
+  m_Script: {fileID: 11500000, guid: 863ca9d8cb02a56b29c3e64689192e83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  coinValue: 0
+  isVictory: 1
   explosion: {fileID: 2008064157816196141, guid: c8f7b3178b7b6c5a495b914ce6e54ef2,
     type: 3}
