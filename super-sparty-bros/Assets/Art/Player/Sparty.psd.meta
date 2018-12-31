@@ -1,5 +1,7 @@
 fileFormatVersion: 2
 guid: b933cc4e1dbdc483eb4917c95fc6d81e
+timeCreated: 1446170094
+licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
     21300000: SpartyIdle_0
@@ -15,95 +17,64 @@ TextureImporter:
     21300020: Sparty_SS_3
     21300022: Sparty_SS_4
     21300024: Sparty_SS_5
-    21300026: SpartyIdle1
-    21300028: SpartyIdle2
-    21300030: SpartyRun1
-    21300032: SpartyRun2
-    21300034: SpartyRun3
-    21300036: SpartyJump
-  externalObjects: {}
-  serializedVersion: 7
+    21300026: Sparty_Idle1
+    21300028: Sparty_Idle2
+    21300030: Sparty_Walk1
+    21300032: Sparty_Walk2
+    21300034: Sparty_Walk3
+    21300036: Sparty_Jump
+  serializedVersion: 2
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
-    sRGBTexture: 1
     linearTexture: 0
+    correctGamma: 0
     fadeOut: 0
     borderMipMap: 0
-    mipMapsPreserveCoverage: 0
-    alphaTestReferenceValue: 0.5
     mipMapFadeDistanceStart: 1
     mipMapFadeDistanceEnd: 3
   bumpmap:
     convertToNormalMap: 0
     externalNormalMap: 0
-    heightScale: 0.25
+    heightScale: .25
     normalMapFilter: 0
   isReadable: 0
-  streamingMipmaps: 0
-  streamingMipmapsPriority: 0
   grayScaleToAlpha: 0
-  generateCubemap: 6
+  generateCubemap: 0
   cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
   seamlessCubemap: 0
   textureFormat: -3
   maxTextureSize: 128
   textureSettings:
-    serializedVersion: 2
     filterMode: 0
     aniso: 16
-    mipBias: -100
-    wrapU: 1
-    wrapV: 1
-    wrapW: 1
+    mipBias: -1
+    wrapMode: 1
   nPOTScale: 0
   lightmap: 0
+  rGBM: 0
   compressionQuality: 50
+  allowsAlphaSplitting: 0
   spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
-  spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 16
+  spritePivot: {x: .5, y: .5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spriteGenerateFallbackPhysicsShape: 1
-  alphaUsage: 1
+  spritePixelsToUnits: 16
   alphaIsTransparency: 1
-  spriteTessellationDetail: -1
   textureType: 8
-  textureShape: 1
-  singleChannelComponent: 0
-  maxTextureSizeSet: 0
-  compressionQualitySet: 0
-  textureFormatSet: 0
-  platformSettings:
-  - serializedVersion: 2
-    buildTarget: DefaultTexturePlatform
+  buildTargetSettings:
+  - buildTarget: Standalone
     maxTextureSize: 128
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
+    textureFormat: -3
     compressionQuality: 50
-    crunchedCompression: 0
     allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-  - serializedVersion: 2
-    buildTarget: Standalone
-    maxTextureSize: 128
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 1
-    androidETC2FallbackOverride: 0
   spriteSheet:
-    serializedVersion: 2
     sprites:
-    - serializedVersion: 2
-      name: SpartyIdle1
+    - name: Sparty_Idle1
       rect:
         serializedVersion: 2
         x: 0
@@ -111,19 +82,9 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 112b67a4f988aa0a5bca6cdbb9f43fa8
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: SpartyIdle2
+    - name: Sparty_Idle2
       rect:
         serializedVersion: 2
         x: 16
@@ -131,19 +92,9 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ee28ae57cb210f183b7a9d9044eb6491
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: SpartyRun1
+    - name: Sparty_Walk1
       rect:
         serializedVersion: 2
         x: 32
@@ -151,19 +102,9 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 072ba983d222ef93e98f8ddff3dc041d
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: SpartyRun2
+    - name: Sparty_Walk2
       rect:
         serializedVersion: 2
         x: 48
@@ -171,19 +112,9 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 55ce4ac36ae4384f0a243aeceb74d591
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: SpartyRun3
+    - name: Sparty_Walk3
       rect:
         serializedVersion: 2
         x: 64
@@ -191,19 +122,9 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 486c0820c0e489cedb1acf83ba17f6bc
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: SpartyJump
+    - name: Sparty_Jump
       rect:
         serializedVersion: 2
         x: 80
@@ -211,28 +132,9 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4aa3fdfcd75e911eaa1453c3ead876c8
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    outline: []
-    physicsShape: []
-    bones: []
-    spriteID: 4d2973da704be27509b31942636cbee8
-    vertices: []
-    indices: 
-    edges: []
-    weights: []
   spritePackingTag: 
-  pSDRemoveMatte: 1
-  pSDShowRemoveMatteOption: 1
   userData: 
   assetBundleName: 
   assetBundleVariant: 

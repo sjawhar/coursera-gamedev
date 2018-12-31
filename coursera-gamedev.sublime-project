@@ -10,7 +10,8 @@
                 "solar-system",
                 "super-sparty-bros",
                 "Assets",
-                "Scripts"
+                "Scripts",
+                "Editor"
             ],
             "file_exclude_patterns":
             [
