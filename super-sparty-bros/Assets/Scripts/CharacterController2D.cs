@@ -3,13 +3,21 @@ using System.Collections;
 using UnityEngine.SceneManagement; // include so we can load new scenes
 using UnityStandardAssets.CrossPlatformInput;
 
-public class CharacterController2D : MonoBehaviour {
+public enum Power
+{
+	None,
+	Dash
+}
+
+public class CharacterController2D : MonoBehaviour
+{
 
 	// player controls
 	[Range(0.0f, 10.0f)] // create a slider in the editor and set limits on moveSpeed
 	public float moveSpeed = 3f;
 
 	public float jumpForce = 600f;
+	public float dashForce = 600f;
 
 	// player health
 	public int playerHealth = 1;
@@ -46,17 +54,18 @@ public class CharacterController2D : MonoBehaviour {
 
 	// player tracking
 	bool facingRight = true;
-	bool isGrounded = false;
-	bool isRunning = false;
+	bool _isGrounded = false;
+	bool _isRunning = false;
 	bool _canDoubleJump = false;
+	float _dashTime = 0f;
 
-	// store the layer the player is on (setup in Awake)
+	Power _activePower = Power.None;
+
 	int _playerLayer;
-
-	// number of layer that Platforms are on (setup in Awake)
 	int _platformLayer;
 	
-	void Awake () {
+	void Awake ()
+	{
 		// get a reference to the components we are going to be changing and store a reference for efficiency purposes
 		_transform = GetComponent<Transform> ();
 		
@@ -87,52 +96,116 @@ public class CharacterController2D : MonoBehaviour {
 	{
 		// exit update if player cannot move or game is paused
 		if (!playerCanMove || (Time.timeScale == 0f))
+		{
 			return;
+		}
+
+		UpdateRunning();
+		UpdateJumping();
+		UpdateDashing();
+		UpdatePhysics();
+		UpdateAnimations();
+	}
+
+	void UpdateRunning()
+	{
+		if (_dashTime > 0)
+		{
+			return;
+		}
 
 		// determine horizontal velocity change based on the horizontal input
-		_vx = CrossPlatformInputManager.GetAxisRaw ("Horizontal");
+		_vx = moveSpeed * CrossPlatformInputManager.GetAxisRaw("Horizontal");
 
 		// Determine if running based on the horizontal movement
 		if (_vx != 0) 
 		{
-			isRunning = true;
-		} else {
-			isRunning = false;
+			_isRunning = true;
+			return;
 		}
+		_isRunning = false;
+	}
 
-		// set the running animation state
-		_animator.SetBool("Running", isRunning);
-
+	void UpdateJumping()
+	{
 		// get the current vertical velocity from the rigidbody component
 		_vy = _rigidbody.velocity.y;
 
 		// Check to see if character is grounded by raycasting from the middle of the player
 		// down to the groundCheck position and see if collected with gameobjects on the
 		// whatIsGround layer
-		isGrounded = Physics2D.Linecast(_transform.position, groundCheck.position, whatIsGround);
-		if (isGrounded)
+		_isGrounded = Physics2D.Linecast(_transform.position, groundCheck.position, whatIsGround);
+		if (_isGrounded)
 		{
 			_canDoubleJump = true;
 		}
 
-		// Set the grounded animation states
-		_animator.SetBool("Grounded", isGrounded);
-
-		HandleJumping();
 		// If the player stops jumping mid jump and player is not yet falling
 		// then set the vertical velocity to 0 (he will start to fall from gravity)
-		if(CrossPlatformInputManager.GetButtonUp("Jump") && _vy>0f)
+		if (CrossPlatformInputManager.GetButtonUp("Jump") && _vy>0f)
 		{
 			_vy = 0f;
+			return;
 		}
 
+		bool doJump = CrossPlatformInputManager.GetButtonDown("Jump") && (_isGrounded || _canDoubleJump);
+		if (!doJump)
+		{
+			return;
+		}
+
+		DoJump();
+		if (!_isGrounded)
+		{
+			_canDoubleJump = false;
+		}
+	}
+
+	void UpdateDashing()
+	{
+		if (_activePower != Power.None && _activePower != Power.Dash)
+		{
+			return;
+		}
+		if (_activePower == Power.Dash)
+		{
+			if (_dashTime > 0) {
+				_dashTime -= Time.deltaTime;
+				return;
+			}
+			_dashTime = 0;
+			_activePower = Power.None;
+			return;
+		}
+		float movement = CrossPlatformInputManager.GetAxisRaw("Horizontal");
+		if (!CrossPlatformInputManager.GetButtonDown("Dash") || movement == 0)
+		{
+			return;
+		}
+		_dashTime = 0.2f;
+		_activePower = Power.Dash;
+		_vx = movement * moveSpeed * 5;
+
+		if (GameManager.gm) {
+			GameManager.gm.Resonate(Power.Dash);
+		}
+	}
+
+	void UpdatePhysics()
+	{
 		// Change the actual velocity on the rigidbody
-		_rigidbody.velocity = new Vector2(_vx * moveSpeed, _vy);
+		_rigidbody.velocity = new Vector2(_vx, _vy);
 
 		// if moving up then don't collide with platform layer
 		// this allows the player to jump up through things on the platform layer
 		// NOTE: requires the platforms to be on a layer named "Platform"
-		Physics2D.IgnoreLayerCollision(_playerLayer, _platformLayer, (_vy > 0.0f)); 
+		Physics2D.IgnoreLayerCollision(_playerLayer, _platformLayer, (_vy > 0.0f));
+	}
+
+	void UpdateAnimations()
+	{
+		_animator.SetBool("Running", _isRunning);
+		_animator.SetBool("Grounded", _isGrounded);
 	}
 
 	// Checking to see if the sprite should be flipped
@@ -176,20 +249,6 @@ public class CharacterController2D : MonoBehaviour {
 		if (other.gameObject.tag=="MovingPlatform")
 		{
 			this.transform.parent = null;
-		}
-	}
-
-	void HandleJumping()
-	{
-		bool doJump = CrossPlatformInputManager.GetButtonDown("Jump") && (isGrounded || _canDoubleJump);
-		if (!doJump)
-		{
-			return;
-		}
-
-		DoJump();
-		if (!isGrounded) {
-			_canDoubleJump = false;
 		}
 	}
 

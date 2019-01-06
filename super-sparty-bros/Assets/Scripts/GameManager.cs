@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI; // include UI namespace so can reference UI elements
 using UnityEngine.SceneManagement; // include so we can manipulate SceneManager
+using UnityEngine.Rendering.PostProcessing;
 
 public class GameManager : MonoBehaviour {
 
@@ -17,6 +18,8 @@ public class GameManager : MonoBehaviour {
 	public int highscore = 0;
 	public int startLives = 3;
 	public int lives = 3;
+	public float powerTime = 1f;
+	public float transitionTime = 0.1f;
 
 	// UI elements to control
 	public Text UIScore;
@@ -25,13 +28,23 @@ public class GameManager : MonoBehaviour {
 	public GameObject[] UIExtraLives;
 	public GameObject UIGamePaused;
 
+	// Post-Processing Volumes
+	public PostProcessVolume redVolume;
+	public string redLayerName = "Red Power Items";
+
 	// private variables
 	GameObject _player;
 	Vector3 _spawnLocation;
 	Scene _scene;
+	float _activePowerTime = 0;
+	PostProcessVolume _activePowerVolume;
+	Power _activePower = Power.None;
+	int _redLayer = -1;
+	int _activePowerLayer = -1;
 
 	// set things up here
-	void Awake () {
+	void Awake ()
+	{
 		// setup reference to game manager
 		if (gm == null)
 			gm = this.GetComponent<GameManager>();
@@ -41,21 +54,60 @@ public class GameManager : MonoBehaviour {
 	}
 
 	// game loop
-	void Update() {
-		// if ESC pressed then pause the game
-		if (Input.GetKeyDown(KeyCode.Escape)) {
-			if (Time.timeScale > 0f) {
-				UIGamePaused.SetActive(true); // this brings up the pause UI
-				Time.timeScale = 0f; // this pauses the game action
-			} else {
-				Time.timeScale = 1f; // this unpauses the game action (ie. back to normal)
-				UIGamePaused.SetActive(false); // remove the pause UI
-			}
+	void Update()
+	{
+		UpdatePause();
+		UpdatePowerEffect();
+	}
+
+	void UpdatePause()
+	{
+		if (!Input.GetKeyDown(KeyCode.Escape)) {
+			return;
+		}
+		if (Time.timeScale > 0f) {
+			UIGamePaused.SetActive(true); // this brings up the pause UI
+			Time.timeScale = 0f; // this pauses the game action
+			return;
+		}
+		Time.timeScale = 1f; // this unpauses the game action (ie. back to normal)
+		UIGamePaused.SetActive(false); // remove the pause UI
+	}
+
+	void UpdatePowerEffect()
+	{
+		if (_activePower == Power.None)
+		{
+			return;
+		}
+		_activePowerTime -= Time.deltaTime;
+		if (_activePowerTime <= 0)
+		{
+			_activePower = Power.None;
+			_activePowerVolume.weight = 0;
+			_activePowerVolume = null;
+			Physics2D.IgnoreLayerCollision(_player.gameObject.layer, _activePowerLayer, false);
+			_activePowerLayer = -1;
+			return;
+		}
+		if (_activePowerTime <= transitionTime)
+		{
+			_activePowerVolume.weight -= Time.deltaTime / transitionTime;
+			return;
+		}
+		if (_activePowerVolume.weight < 1)
+		{
+			_activePowerVolume.weight += Time.deltaTime / transitionTime;
+		}
+		if (_activePowerVolume.weight >= 1)
+		{
+			_activePowerVolume.weight = 1;
 		}
 	}
 
 	// setup all the variables, the UI, and provide errors if things not setup properly.
-	void setupDefaults() {
+	void setupDefaults()
+	{
 		// setup reference to player
 		if (_player == null)
 			_player = GameObject.FindGameObjectWithTag("Player");
@@ -92,6 +144,8 @@ public class GameManager : MonoBehaviour {
 		
 		if (UIGamePaused==null)
 			Debug.LogError ("Need to set UIGamePaused on Game Manager.");
+
+		_redLayer = LayerMask.NameToLayer(redLayerName);
 		
 		// get stored player prefs
 		refreshPlayerState();
@@ -125,7 +179,7 @@ public class GameManager : MonoBehaviour {
 		
 		// turn on the appropriate number of life indicators in the UI based on the number of lives left
 		for(int i=0;i<UIExtraLives.Length;i++) {
-			if (i<(lives-1)) { // show one less than the number of lives since you only typically show lifes after the current life in UI
+			if (i < (lives-1)) { // show one less than the number of lives since you only typically show lifes after the current life in UI
 				UIExtraLives[i].SetActive(true);
 			} else {
 				UIExtraLives[i].SetActive(false);
@@ -179,5 +233,24 @@ public class GameManager : MonoBehaviour {
 	IEnumerator LoadNextLevel() {
 		yield return new WaitForSeconds(3.5f);
 		SceneManager.LoadScene(levelAfterVictory);
+	}
+
+	public void Resonate(Power activePower)
+	{
+		_activePower = activePower;
+		_activePowerTime = powerTime;
+		if (_activePowerVolume) {
+			_activePowerVolume.weight = 0;
+		}
+		switch (_activePower)
+		{
+			case Power.Dash:
+				_activePowerVolume = redVolume;
+				_activePowerLayer = _redLayer;
+				break;
+			default:
+				return;
+		}
+		Physics2D.IgnoreLayerCollision(_player.gameObject.layer, _activePowerLayer, true);
 	}
 }
