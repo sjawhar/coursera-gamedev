@@ -32,6 +32,7 @@ public class CharacterController2D : MonoBehaviour
 	// we want this public so other scripts can access it but we don't want to show in editor as it might confuse designer
 	[HideInInspector]
 	public bool playerCanMove = true;
+	public bool canDash = false;
 
 	// SFXs
 	public AudioClip coinSFX;
@@ -163,6 +164,9 @@ public class CharacterController2D : MonoBehaviour
 
 	void UpdateDashing()
 	{
+		if (!canDash) {
+			return;
+		}
 		if (_activePower != Power.None && _activePower != Power.Dash)
 		{
 			return;
